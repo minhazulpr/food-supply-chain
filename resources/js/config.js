@@ -1,4 +1,4 @@
-    const contractAddress = '0xa384a4e543ba442ad985770cbd315edb300badf6';
+    const contractAddress = '0x186ab4b67787bea1625e1c6708c57322e107e9be';
 
     const contractABI = [
 	{
@@ -444,20 +444,5 @@
 	}
 ];
 
-    let web3;
-    let contract;
-    let accounts;
 
-window.addEventListener('load', async () => {
-	if (window.ethereum) {
-	web3 = new Web3(window.ethereum);
-	await window.ethereum.request({ method: 'eth_requestAccounts' });
-	
-	accounts = await web3.eth.getAccounts();
-	contract = new web3.eth.Contract(contractABI, contractAddress);
-	} else {
-	alert('MetaMask not installed!');
-	}
-});
-
-export {contract,accounts,web3}
+export {contractAddress, contractABI};

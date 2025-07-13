@@ -10,7 +10,6 @@ Product Status
 @section('content')
     <section class="mt-5">
         <div class="container">
-            <button class="btn btn-info load">Load</button>
             <table class="table product-status table-bordered mt-4">
                 <thead>
                     <th>#</th>
