@@ -61,9 +61,10 @@ async function GetProduct() {
         let ConfirmButton;
         let ProductStatus = 'Pending';
 
-
-        if(Number(product.status) > 0){
+        if(Number(product.status) > 0 && !Number(product.rejected)){
             inspection = "Approved";
+        }else if(Number(product.rejected) == 1){
+            inspection = "Rejected";
         }else{
             inspection = "Pending";
         }
@@ -76,6 +77,8 @@ async function GetProduct() {
 
         if(Number(product.status) == 4){
             ProductStatus = "Sold";
+        }else if(Number(product.rejected)){
+            ProductStatus = "Rejected";
         }else{
             ProductStatus = "Pending";
         }
@@ -120,6 +123,12 @@ async function ApproveProduct(productId,uniqueId) {
     window.location.reload();
 }
 
+// Rejct product approval
+async function RejectProduct(productId) {
+    await contract.methods.rejectProduct(productId).send({ from: accounts[0] });
+    window.location.reload();
+}
+
 
 
 if(TableEl){
@@ -133,6 +142,8 @@ if(TableEl){
             let uniqueId = generateUUID();
 
             ApproveProduct(productId,uniqueId);
+        }else if(e.target.classList.contains('reject-product')){
+            RejectProduct(productId);
         }
 
         
@@ -160,18 +171,23 @@ async function GetRequest() {
         
         let inspection = '';
         let ConfirmButton;
+        let RejectButton;
 
 
-        if(Number(product.status) > 0){
+        if(Number(product.status) > 0 && !product.rejected){
             inspection = "Approved";
+        }else if(product.rejected){
+            inspection = "Rejected";
         }else{
-            inspection = "Pending";
+            inspection = "Approved";
         }
 
-        if(Number(product.status) == 0){
+        if(Number(product.status) == 0 && !product.rejected){
             ConfirmButton = `<Button class='btn btn-success confirm-product'  data-product='${Number(product.id)}'>Confirm</Button>`;
+            RejectButton = `<Button class='btn btn-danger reject-product'  data-product='${Number(product.id)}'>Reject</Button>`;
         }else{
             ConfirmButton = " ";
+            RejectButton = " ";
         }
 
         let html = `
@@ -185,6 +201,7 @@ async function GetRequest() {
             
             <td>
                 ${ConfirmButton}
+                ${RejectButton}
             </td>
         </tr>
     `;

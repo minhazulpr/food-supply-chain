@@ -1,6 +1,37 @@
-    const contractAddress = '0x186ab4b67787bea1625e1c6708c57322e107e9be';
+    const contractAddress = '0x763d17490c40b3baed8ae3ac0d1127b88c50e156';
 
     const contractABI = [
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "productId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "shortCode",
+				"type": "string"
+			}
+		],
+		"name": "approveProduct",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "productId",
+				"type": "uint256"
+			}
+		],
+		"name": "confirmSell",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
 	{
 		"inputs": [],
 		"stateMutability": "nonpayable",
@@ -77,6 +108,45 @@
 		"type": "event"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "productId",
+				"type": "uint256"
+			}
+		],
+		"name": "rejectProduct",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "productId",
+				"type": "uint256"
+			}
+		],
+		"name": "requestLogistics",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "productId",
+				"type": "uint256"
+			}
+		],
+		"name": "requestToBuy",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"anonymous": false,
 		"inputs": [
 			{
@@ -98,30 +168,27 @@
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
-				"name": "productId",
-				"type": "uint256"
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
 			},
 			{
 				"internalType": "string",
-				"name": "shortCode",
+				"name": "description",
 				"type": "string"
-			}
-		],
-		"name": "approveProduct",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
+			},
 			{
 				"internalType": "uint256",
-				"name": "productId",
+				"name": "quantity",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "price",
 				"type": "uint256"
 			}
 		],
-		"name": "confirmSell",
+		"name": "uploadProduct",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -196,6 +263,11 @@
 					{
 						"internalType": "enum FoodChain.ProductStatus",
 						"name": "status",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint8",
+						"name": "rejected",
 						"type": "uint8"
 					}
 				],
@@ -277,6 +349,11 @@
 					{
 						"internalType": "enum FoodChain.ProductStatus",
 						"name": "status",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint8",
+						"name": "rejected",
 						"type": "uint8"
 					}
 				],
@@ -383,63 +460,14 @@
 				"internalType": "enum FoodChain.ProductStatus",
 				"name": "status",
 				"type": "uint8"
+			},
+			{
+				"internalType": "uint8",
+				"name": "rejected",
+				"type": "uint8"
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "productId",
-				"type": "uint256"
-			}
-		],
-		"name": "requestLogistics",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "productId",
-				"type": "uint256"
-			}
-		],
-		"name": "requestToBuy",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "name",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "description",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "quantity",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "price",
-				"type": "uint256"
-			}
-		],
-		"name": "uploadProduct",
-		"outputs": [],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	}
 ];
