@@ -15,9 +15,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
         $roles = ['admin', 'farmer', 'logistics', 'retailers'];
 
+        // Seed Role
+        foreach ($roles as $role) {
+            Role::firstOrCreate(['name' => $role]);
+        }
+
+
+        // Seed Users
         User::factory()->create([
             'name' => 'inspector',
             'email' => 'inspector@gmail.com',
@@ -26,21 +32,21 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@gmail.com',
+            'name' => 'Producer',
+            'email' => 'producer@gmail.com',
             'role_id' => 2,
             'password' => Hash::make(1234)
         ]);
 
         User::factory()->create([
-            'name' => 'Test User',
+            'name' => 'Logistics',
             'email' => 'logistics@gmail.com',
             'role_id' => 3,
             'password' => Hash::make(1234)
         ]);
 
         User::factory()->create([
-            'name' => 'Test User',
+            'name' => 'Retailers',
             'email' => 'retailers@gmail.com',
             'role_id' => 4,
             'password' => Hash::make(1234)
@@ -48,8 +54,6 @@ class DatabaseSeeder extends Seeder
 
         
 
-        foreach ($roles as $role) {
-            Role::firstOrCreate(['name' => $role]);
-        }
+        
     }
 }
