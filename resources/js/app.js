@@ -251,8 +251,13 @@ Route('/products',GetRetailerProduct);
 
 // Send Retailer Request
 async function SendRetailerRequest(productId) {
-    await contract.methods.requestToBuy(productId).send({ from: accounts[0] });
-    window.location.reload();
+    try{
+        await contract.methods.requestToBuy(productId).send({ from: accounts[0] });
+        window.location.href="/products";
+    }catch(err){
+        window.alert(err);
+        window.location.href="/products";
+    }
 }
 
 
@@ -266,6 +271,7 @@ if(RetailerAddProduct){
     });
 }
 
+Route('/success',SendRetailerRequest,1);
 
 
 

@@ -1,5 +1,10 @@
-export default function route(url,callback){
+export default function route(url,callback,parameter=null){
     if(url == window.location.pathname){
-        callback();
+        if(parameter){
+            callback(parameter);
+
+        }else{
+            callback();
+        }
     }
 }

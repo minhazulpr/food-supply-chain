@@ -9,6 +9,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RoleMiddleware
 {
+    protected $except = [
+        '/pay-via-ajax', '/success','/cancel','/fail','/ipn'
+    ];
+    
     /**
      * Handle an incoming request.
      *
@@ -19,6 +23,7 @@ class RoleMiddleware
         if (!Auth::check() || !in_array(Auth::user()->role->name, $roles)) {
             abort(403, 'Unauthorized.');
         }
+        
 
         return $next($request);
     }
