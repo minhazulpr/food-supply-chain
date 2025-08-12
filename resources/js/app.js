@@ -17,7 +17,10 @@ let RetailerAddProduct = select('.product');
 let VerifyBtn = select('.verify-btn');
 let VerificationValue = select('#verify');
 let table = select('.product-verified-info');
-
+let checkoutProduct = select('.checkout-product-name');
+let checkoutPrice = select('.checkout-product-price');
+let quantityEl = select('.quantity');
+let totalAmountEl = select('.total-amount');
 
 
 // select any element
@@ -231,13 +234,14 @@ async function GetRetailerProduct() {
             continue;
         }
 
+        // <button class="btn btn-primary retailer-request" data-product=${Number(product.id)}>Buy</button>
         let html = `
         <div class="col-md-3">
             <div class="card card-body">
                 <h5>${product.name}</h5>
                 <p class="mb-1">Quantity: ${product.quantity}</p>
                 <p>Price: 100</p>
-                <button class="btn btn-primary retailer-request" data-product=${Number(product.id)}>Buy</button>
+                <a class="btn btn-primary" href="checkout?pid=${Number(product.id)}">Buy</a>
             </div>
         </div>
     `;
@@ -248,11 +252,25 @@ async function GetRetailerProduct() {
 }
 Route('/products',GetRetailerProduct);
 
+// Load Single Product
+async function GetSingleRetailerProduct(pid) {
+    let product = await contract.methods.getProduct(pid).call();
+
+    checkoutProduct.textContent = product.name;
+    checkoutPrice.textContent = product.price;
+    totalAmountEl.value = quantityEl.value* Number(product.price);
+
+    console.log(product);
+}
+
+Route('/checkout',GetSingleRetailerProduct,(new URLSearchParams(window.location.search).get('pid')));
 
 // Send Retailer Request
-async function SendRetailerRequest(productId) {
+async function SendRetailerRequest(paraObj) {
+    console.log(paraObj.pid);
+
     try{
-        await contract.methods.requestToBuy(productId).send({ from: accounts[0] });
+        await contract.methods.requestToBuy(paraObj.pid).send({ from: accounts[0] });
         window.location.href="/products";
     }catch(err){
         window.alert(err);
@@ -271,7 +289,7 @@ if(RetailerAddProduct){
     });
 }
 
-Route('/success',SendRetailerRequest,1);
+Route('/success',SendRetailerRequest,{txid:new URLSearchParams(window.location.search).get('txid'),pid:new URLSearchParams(window.location.search).get('pid')});
 
 
 
@@ -365,3 +383,13 @@ if(VerifyBtn){
         Verify(id);
     });
 }
+
+
+// Quantity Control
+quantityEl.addEventListener('input',function(){
+    if(this.value <= 0){
+        this.value = 1;
+    }
+
+    totalAmountEl.value = checkoutPrice.textContent * this.value;
+});

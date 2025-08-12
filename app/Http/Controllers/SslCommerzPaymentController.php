@@ -15,9 +15,13 @@ class SslCommerzPaymentController extends Controller
         return view('exampleEasycheckout');
     }
 
-    public function exampleHostedCheckout()
+    public function exampleHostedCheckout(Request $request)
     {
-        return view('exampleHosted');
+        $pid = $request->input('pid');
+        if(!$pid){
+            return redirect()->route('retailer.product');
+        }
+        return view('exampleHosted', compact('pid'));
     }
 
     public function index(Request $request)
@@ -27,7 +31,9 @@ class SslCommerzPaymentController extends Controller
         # In "orders" table, order unique identity is "transaction_id". "status" field contain status of the transaction, "amount" is the order amount to be paid and "currency" is for storing Site Currency which will be checked with paid currency.
 
         $post_data = array();
-        $post_data['total_amount'] = '10'; # You cant not pay less than 10
+        $post_data['total_amount'] = $request->total_amount; # You cant not pay less than 10
+        $post_data['quantity'] = $request->quantity; 
+        $post_data['pid'] = $request->product_id; 
         $post_data['currency'] = "BDT";
         $post_data['tran_id'] = uniqid(); // tran_id must be unique
 

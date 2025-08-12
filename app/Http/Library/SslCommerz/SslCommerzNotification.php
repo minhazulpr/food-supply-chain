@@ -303,7 +303,7 @@ class SslCommerzNotification extends AbstractSslCommerz
         $this->setCancelUrl();
         $this->setIPNUrl();
 
-        $this->data['success_url'] = $this->getSuccessUrl(); // string (255)	Mandatory - It is the callback URL of your website where user will redirect after successful payment (Length: 255)
+        $this->data['success_url'] = $this->getSuccessUrl()."?txid=".$info['tran_id']."&pid=".$info['pid']; // string (255)	Mandatory - It is the callback URL of your website where user will redirect after successful payment (Length: 255)
         $this->data['fail_url'] = $this->getFailedUrl(); // string (255)	Mandatory - It is the callback URL of your website where user will redirect after any failure occure during payment (Length: 255)
         $this->data['cancel_url'] = $this->getCancelUrl(); // string (255)	Mandatory - It is the callback URL of your website where user will redirect if user canceled the transaction (Length: 255)
 
