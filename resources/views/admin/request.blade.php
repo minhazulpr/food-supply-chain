@@ -15,7 +15,6 @@ Product Request
                     <th>#</th>
                     <th>Unique Code</th>
                     <th>Title</th>
-                    <th>Quantity</th>
                     <th>Price</th>
                     <th>Status</th>
                     <th>Action</th>

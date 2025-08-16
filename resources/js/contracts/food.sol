@@ -17,6 +17,7 @@ contract FoodChain {
         uint256 quantity;
         uint256 price;
         string uniqueCode;
+        string txid;
         address producer;
         address inspector;
         address retailer;
@@ -63,15 +64,16 @@ contract FoodChain {
         owner = msg.sender; // Inspector as contract deployer
     }
 
-    function uploadProduct(string calldata name, string calldata description, uint256 quantity, uint256 price) external {
+    function uploadProduct(string calldata name, string calldata description, uint256 price) external {
         productCounter++;
         products[productCounter] = Product({
             id: productCounter,
             name: name,
             description: description,
-            quantity: quantity,
+            quantity: 0,
             price: price,
             uniqueCode: "",
+            txid:"",
             producer: msg.sender,
             inspector: address(0),
             retailer: address(0),
@@ -106,10 +108,12 @@ contract FoodChain {
 
     }
 
-    function requestToBuy(uint256 productId) external onlyRetailer(productId) {
+    function requestToBuy(uint256 productId,string calldata txid, uint256 quantity) external onlyRetailer(productId) {
         Product storage product = products[productId];
         product.retailer = msg.sender;
         product.status = ProductStatus.RetailerRequested;
+        product.txid = txid;
+        product.quantity = quantity;
 
         emit RetailerRequested(productId, msg.sender);
     }

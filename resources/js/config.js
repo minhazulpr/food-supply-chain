@@ -1,37 +1,6 @@
-    const contractAddress = '0x33c90dc7b8504ce7ed9a34bb89f75cf5eafadf66';
+    const contractAddress = '0x5039801e8af826bb92cfe2e79411ed5e6a61709a';
 
     const contractABI = [
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "productId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "shortCode",
-				"type": "string"
-			}
-		],
-		"name": "approveProduct",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "productId",
-				"type": "uint256"
-			}
-		],
-		"name": "confirmSell",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
 	{
 		"inputs": [],
 		"stateMutability": "nonpayable",
@@ -108,45 +77,6 @@
 		"type": "event"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "productId",
-				"type": "uint256"
-			}
-		],
-		"name": "rejectProduct",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "productId",
-				"type": "uint256"
-			}
-		],
-		"name": "requestLogistics",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "productId",
-				"type": "uint256"
-			}
-		],
-		"name": "requestToBuy",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
 		"anonymous": false,
 		"inputs": [
 			{
@@ -168,27 +98,30 @@
 	{
 		"inputs": [
 			{
-				"internalType": "string",
-				"name": "name",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "description",
-				"type": "string"
-			},
-			{
 				"internalType": "uint256",
-				"name": "quantity",
+				"name": "productId",
 				"type": "uint256"
 			},
 			{
+				"internalType": "string",
+				"name": "shortCode",
+				"type": "string"
+			}
+		],
+		"name": "approveProduct",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "uint256",
-				"name": "price",
+				"name": "productId",
 				"type": "uint256"
 			}
 		],
-		"name": "uploadProduct",
+		"name": "confirmSell",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -233,6 +166,11 @@
 					{
 						"internalType": "string",
 						"name": "uniqueCode",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "txid",
 						"type": "string"
 					},
 					{
@@ -319,6 +257,11 @@
 					{
 						"internalType": "string",
 						"name": "uniqueCode",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "txid",
 						"type": "string"
 					},
 					{
@@ -432,6 +375,11 @@
 				"type": "string"
 			},
 			{
+				"internalType": "string",
+				"name": "txid",
+				"type": "string"
+			},
+			{
 				"internalType": "address",
 				"name": "producer",
 				"type": "address"
@@ -468,6 +416,78 @@
 			}
 		],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "productId",
+				"type": "uint256"
+			}
+		],
+		"name": "rejectProduct",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "productId",
+				"type": "uint256"
+			}
+		],
+		"name": "requestLogistics",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "productId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "txid",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "quantity",
+				"type": "uint256"
+			}
+		],
+		"name": "requestToBuy",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "description",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "price",
+				"type": "uint256"
+			}
+		],
+		"name": "uploadProduct",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	}
 ];

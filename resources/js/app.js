@@ -30,9 +30,9 @@ function select(selectquery){
 
 
 // Add Product
-async function AddProduct(title,description,quantity,price) {
+async function AddProduct(title,description,price) {
     
-    await contract.methods.uploadProduct(title,description,quantity,price).send({ from: accounts[0] });
+    await contract.methods.uploadProduct(title,description,price).send({ from: accounts[0] });
     
     alert('Product stored successfully!');
 }
@@ -44,7 +44,7 @@ if(AddProductEl){
 
         let form = new FormData(this);
         
-        AddProduct(form.get('title'),form.get('description'),form.get('quantity'),form.get('price'));
+        AddProduct(form.get('title'),form.get('description'),form.get('price'));
         
     });
 }
@@ -92,6 +92,7 @@ async function GetProduct() {
             <td>${product.uniqueCode}</td>
             <td>${product.name}</td>
             <td>${product.quantity}</td>
+            <td>${product.txid}</td>
             <td>${product.price}</td>
             <td>${inspection}</td>
             <td>${product.retailer}</td>
@@ -198,7 +199,6 @@ async function GetRequest() {
             <td>${i}</td>
             <td>${product.uniqueCode}</td>
             <td>${product.name}</td>
-            <td>${product.quantity}</td>
             <td>${product.price}</td>
             <td>${inspection}</td>
             
@@ -239,8 +239,8 @@ async function GetRetailerProduct() {
         <div class="col-md-3">
             <div class="card card-body">
                 <h5>${product.name}</h5>
-                <p class="mb-1">Quantity: ${product.quantity}</p>
-                <p>Price: 100</p>
+                <p class="mb-1">${product.description}</p>
+                <p>Price: ${product.price}</p>
                 <a class="btn btn-primary" href="checkout?pid=${Number(product.id)}">Buy</a>
             </div>
         </div>
@@ -267,10 +267,9 @@ Route('/checkout',GetSingleRetailerProduct,(new URLSearchParams(window.location.
 
 // Send Retailer Request
 async function SendRetailerRequest(paraObj) {
-    console.log(paraObj.pid);
-
+    
     try{
-        await contract.methods.requestToBuy(paraObj.pid).send({ from: accounts[0] });
+        await contract.methods.requestToBuy(paraObj.pid,paraObj.txid,paraObj.quantity).send({ from: accounts[0] });
         window.location.href="/products";
     }catch(err){
         window.alert(err);
@@ -289,7 +288,7 @@ if(RetailerAddProduct){
     });
 }
 
-Route('/success',SendRetailerRequest,{txid:new URLSearchParams(window.location.search).get('txid'),pid:new URLSearchParams(window.location.search).get('pid')});
+Route('/success',SendRetailerRequest,{txid:new URLSearchParams(window.location.search).get('txid'),pid:new URLSearchParams(window.location.search).get('pid'), quantity:new URLSearchParams(window.location.search).get('quantity')});
 
 
 

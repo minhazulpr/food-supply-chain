@@ -24,11 +24,6 @@ Add Product
                         </div>
 
                         <div class="mb-3">
-                            <label for="quantity" class="form-label">Quantity</label>
-                            <input type="number" name="quantity" class="form-control" id="quantity">
-                        </div>
-
-                        <div class="mb-3">
                             <label for="price" class="form-label">Price</label>
                             <input type="number" name="price" class="form-control" id="price">
                         </div>

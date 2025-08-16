@@ -16,6 +16,7 @@ Product Status
                     <th>Unique Code</th>
                     <th>Title</th>
                     <th>Quantity</th>
+                    <th>Txid</th>
                     <th>Price</th>
                     <th>Inspection Status</th>
                     <th>Retailer Address</th>
