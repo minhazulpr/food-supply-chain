@@ -23,7 +23,7 @@ Verification
 
         <div class="d-flex justify-content-center mt-4">
             <div class="col-md-4">
-                <div class="card card-body">
+                <div class="card card-body verify-card">
                     <table class="table product-verified-info">
                         
                     </table>

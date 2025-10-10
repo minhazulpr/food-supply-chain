@@ -21,7 +21,7 @@ let checkoutProduct = select('.checkout-product-name');
 let checkoutPrice = select('.checkout-product-price');
 let quantityEl = select('.quantity');
 let totalAmountEl = select('.total-amount');
-
+let verifyCardEl = select('.verify-card');
 
 // select any element
 function select(selectquery){
@@ -346,31 +346,44 @@ if(RetailerAddProduct){
 
 
 // Product Verification
+verifyCardEl.style.display = 'none';
 
 async function Verify(key){
-    let product = await contract.methods.getProductByKey(key).call();
     
-    let html = `
-    <tr>
-        <th>Title</th>
-        <td>${product.name}</td>
-    </tr>
-    <tr>
-        <th>Quantity</th>
-        <td>${product.quantity}</td>
-    </tr>
-    <tr>
-        <th>Price</th>
-        <td>${product.price}</td>
-    </tr>
-    <tr>
-        <th>Sold Date</th>
-        <td>${new Date(Number(product.soldDate) * 1000).toLocaleString()}</td>
-    </tr>
-    `;
+    try{
+         let product = await contract.methods.getProductByKey(key).call();
 
-    table.textContent = " ";
-    table.insertAdjacentHTML('beforeend',html);
+         let html = `
+            <tr>
+                <th>Title</th>
+                <td>${product.name}</td>
+            </tr>
+            <tr>
+                <th>Quantity</th>
+                <td>${product.quantity}</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>${product.price}</td>
+            </tr>
+            <tr>
+                <th>Sold Date</th>
+                <td>${new Date(Number(product.soldDate) * 1000).toLocaleString()}</td>
+            </tr>
+            `;
+
+            verifyCardEl.style.display = 'block';
+            table.textContent = " ";
+            table.insertAdjacentHTML('beforeend',html);
+    }catch(error){
+        let html = `Not Found`;
+
+        verifyCardEl.style.display = 'block';
+        table.textContent = " ";
+        table.insertAdjacentHTML('beforeend',html);
+    }
+    
+    
 }
 
 if(VerifyBtn){
