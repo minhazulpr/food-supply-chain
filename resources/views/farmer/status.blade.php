@@ -18,6 +18,7 @@ Product Status
                     <th>Quantity</th>
                     <th>Txid</th>
                     <th>Price</th>
+                    <th>Unit</th>
                     <th>Inspection Status</th>
                     <th>Retailer Address</th>
                     <th>Logistics Address</th>
@@ -30,5 +31,11 @@ Product Status
             </table>
         </div>
     </section>
+
+    <script>
+        let authUserId = @json(Auth::user()->id);
+        console.log(authUserId);
+    </script>
+
 
 @endsection

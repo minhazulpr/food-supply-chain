@@ -54,7 +54,7 @@
 
             @if(!Auth::check())
             <li class="nav-item">
-              <a class="nav-link" href="#">Register</a>
+              <a class="nav-link" href="{{route('register')}}">Register</a>
             </li>
             <li class="nav-item">
               <a class="btn btn-primary" href="{{route('login')}}">Login</a>

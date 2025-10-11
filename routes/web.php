@@ -17,6 +17,8 @@ Route::get('/',[HomeController::class,'ShowHome'])->name('home');
 Route::get('/verify', [VerificationController::class,'ShowForm'])->name('verify');
 Route::get('/login', [AuthController::class,'ShowLogin'])->name('login');
 Route::post('/login', [AuthController::class,'Login'])->name('login');
+Route::get('/register', [AuthController::class,'ShowRegister'])->name('register');
+Route::post('/register', [AuthController::class,'Register'])->name('register');
 Route::any('/logout', [AuthController::class,'Logout'])->name('logout');
 
 

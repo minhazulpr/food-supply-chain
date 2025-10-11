@@ -30,11 +30,38 @@ function select(selectquery){
 
 
 // Add Product
-async function AddProduct(title,description,price) {
-    
-    await contract.methods.uploadProduct(title,description,price).send({ from: accounts[0] });
+async function AddProduct(title,description,price,unit,userID) {
+
+    await contract.methods.uploadProduct(title,description,price,unit,userID).send({ from: accounts[0] });
     
     alert('Product stored successfully!');
+}
+
+
+// validate price field
+let priceEl = select('#price');
+
+if(priceEl){
+    priceEl.addEventListener('keyup',function(e){
+        let value = e.target.value;
+
+        select('#priceError').textContent = '';
+
+        if (value === '' || Number(value) <= 0) {
+        select('#priceError').textContent = 'Price must be greater than 0.';
+        e.target.value = ''; // clear invalid input
+        } else {
+        select('#priceError').textContent = '';
+        }
+
+
+        if (!/[0-9]/.test(e.key)) {
+        e.preventDefault();
+        select('#priceError').textContent = 'Only positive numbers allowed.';
+        
+        }
+        
+    }); 
 }
 
 
@@ -43,8 +70,25 @@ if(AddProductEl){
         e.preventDefault();
 
         let form = new FormData(this);
+
+        select('#titleError').textContent = '';
+        select('#descriptionError').textContent = '';
+
+        // Validate
+        if(form.get('title') === '' ){
+            select('#titleError').textContent = "This field is required";
+            return;
+        }else if(form.get('description') === ''){
+            select('#descriptionError').textContent = "This field is required";
+            return;
+        }else if(form.get('price') === ''){
+            select('#priceError').textContent = "This field is required";
+            return;
+        }
+
         
-        AddProduct(form.get('title'),form.get('description'),form.get('price'));
+        
+        AddProduct(form.get('title'),form.get('description'),form.get('price'),form.get('unit'),authUserId);
         
     });
 }
@@ -59,6 +103,11 @@ async function GetProduct() {
     productinfo.textContent = " ";
     for(let i = 1; i <= TotalProduct;i++){
         let product = await contract.methods.getProduct(i).call();
+
+        
+        if(Number(product.userID) !== authUserId){
+            continue;
+        }
         
         let inspection = '';
         let ConfirmButton;
@@ -94,6 +143,7 @@ async function GetProduct() {
             <td>${product.quantity}</td>
             <td>${product.txid}</td>
             <td>${product.price}</td>
+            <td>${product.unit}</td>
             <td>${inspection}</td>
             <td>${product.retailer}</td>
             <td>${product.logistic}</td>
@@ -145,7 +195,8 @@ if(TableEl){
             
             let uniqueId = generateUUID();
 
-            ApproveProduct(productId,uniqueId);
+
+            ApproveProduct(Number(productId),uniqueId);
         }else if(e.target.classList.contains('reject-product')){
             RejectProduct(productId);
         }
@@ -172,21 +223,21 @@ async function GetRequest() {
     RequestInfoEl.textContent = " ";
     for(let i = 1; i <= TotalProduct;i++){
         let product = await contract.methods.getProduct(i).call();
-        
+
         let inspection = '';
         let ConfirmButton;
         let RejectButton;
 
 
-        if(Number(product.status) > 0 && !product.rejected){
+        if(Number(product.status) > 0 && !Number(product.rejected)){
             inspection = "Approved";
-        }else if(product.rejected){
+        }else if(Number(product.rejected)){
             inspection = "Rejected";
         }else{
-            inspection = "Approved";
+            inspection = "Pending";
         }
 
-        if(Number(product.status) == 0 && !product.rejected){
+        if(Number(product.status) == 0 && !Number(product.rejected)){
             ConfirmButton = `<Button class='btn btn-success confirm-product'  data-product='${Number(product.id)}'>Confirm</Button>`;
             RejectButton = `<Button class='btn btn-danger reject-product'  data-product='${Number(product.id)}'>Reject</Button>`;
         }else{
@@ -236,11 +287,14 @@ async function GetRetailerProduct() {
 
         // <button class="btn btn-primary retailer-request" data-product=${Number(product.id)}>Buy</button>
         let html = `
+
         <div class="col-md-3">
             <div class="card card-body">
                 <h5>${product.name}</h5>
+                <hr>
                 <p class="mb-1">${product.description}</p>
-                <p>Price: ${product.price}</p>
+                <hr>
+                <p class="fs-3">${product.price} Tk/ ${product.unit}</p>
                 <a class="btn btn-primary" href="checkout?pid=${Number(product.id)}">Buy</a>
             </div>
         </div>
@@ -311,8 +365,11 @@ async function GetLogisticProduct() {
         <div class="col-md-3">
             <div class="card card-body">
                 <h5>${product.name}</h5>
-                <p class="mb-1">Quantity: ${product.quantity}</p>
-                <p>Price: ${product.price}</p>
+                <hr>
+                <p class="mb-1">Quantity: ${product.description}</p>
+                <hr>
+                <p class="fs-3">${product.price} Tk/ ${product.unit}</p>
+                
                 <button class="btn btn-primary logistic-request" data-product=${Number(product.id)}>Request</button>
             </div>
         </div>
@@ -346,7 +403,10 @@ if(RetailerAddProduct){
 
 
 // Product Verification
-verifyCardEl.style.display = 'none';
+if(verifyCardEl){
+
+    verifyCardEl.style.display = 'none';
+}
 
 async function Verify(key){
     
@@ -364,7 +424,7 @@ async function Verify(key){
             </tr>
             <tr>
                 <th>Price</th>
-                <td>${product.price}</td>
+                <td>${product.price} TK/${product.unit}</td>
             </tr>
             <tr>
                 <th>Sold Date</th>
@@ -398,10 +458,12 @@ if(VerifyBtn){
 
 
 // Quantity Control
-quantityEl.addEventListener('input',function(){
-    if(this.value <= 0){
-        this.value = 1;
-    }
+if(quantityEl){
+    quantityEl.addEventListener('input',function(){
+        if(this.value <= 0){
+            this.value = 1;
+        }
 
-    totalAmountEl.value = checkoutPrice.textContent * this.value;
-});
+        totalAmountEl.value = checkoutPrice.textContent * this.value;
+    });
+}

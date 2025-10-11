@@ -1,6 +1,37 @@
-    const contractAddress = '0x21618390cdeaaed925098b1db8858cb8861e13f6';
+    const contractAddress = '0xe5b2b31306770196cc4fb9dad2d974fd65eee453';
 
     const contractABI = [
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "productId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "shortCode",
+				"type": "string"
+			}
+		],
+		"name": "approveProduct",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "productId",
+				"type": "uint256"
+			}
+		],
+		"name": "confirmSell",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
 	{
 		"inputs": [],
 		"stateMutability": "nonpayable",
@@ -77,6 +108,55 @@
 		"type": "event"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "productId",
+				"type": "uint256"
+			}
+		],
+		"name": "rejectProduct",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "productId",
+				"type": "uint256"
+			}
+		],
+		"name": "requestLogistics",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "productId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "txid",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "quantity",
+				"type": "uint256"
+			}
+		],
+		"name": "requestToBuy",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"anonymous": false,
 		"inputs": [
 			{
@@ -98,30 +178,32 @@
 	{
 		"inputs": [
 			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "description",
+				"type": "string"
+			},
+			{
 				"internalType": "uint256",
-				"name": "productId",
+				"name": "price",
 				"type": "uint256"
 			},
 			{
 				"internalType": "string",
-				"name": "shortCode",
+				"name": "unit",
 				"type": "string"
-			}
-		],
-		"name": "approveProduct",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
+			},
 			{
 				"internalType": "uint256",
-				"name": "productId",
+				"name": "userID",
 				"type": "uint256"
 			}
 		],
-		"name": "confirmSell",
+		"name": "uploadProduct",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -165,6 +247,11 @@
 					},
 					{
 						"internalType": "string",
+						"name": "unit",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
 						"name": "uniqueCode",
 						"type": "string"
 					},
@@ -172,6 +259,11 @@
 						"internalType": "string",
 						"name": "txid",
 						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "userID",
+						"type": "uint256"
 					},
 					{
 						"internalType": "address",
@@ -256,6 +348,11 @@
 					},
 					{
 						"internalType": "string",
+						"name": "unit",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
 						"name": "uniqueCode",
 						"type": "string"
 					},
@@ -263,6 +360,11 @@
 						"internalType": "string",
 						"name": "txid",
 						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "userID",
+						"type": "uint256"
 					},
 					{
 						"internalType": "address",
@@ -371,6 +473,11 @@
 			},
 			{
 				"internalType": "string",
+				"name": "unit",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
 				"name": "uniqueCode",
 				"type": "string"
 			},
@@ -378,6 +485,11 @@
 				"internalType": "string",
 				"name": "txid",
 				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "userID",
+				"type": "uint256"
 			},
 			{
 				"internalType": "address",
@@ -416,78 +528,6 @@
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "productId",
-				"type": "uint256"
-			}
-		],
-		"name": "rejectProduct",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "productId",
-				"type": "uint256"
-			}
-		],
-		"name": "requestLogistics",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "productId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "txid",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "quantity",
-				"type": "uint256"
-			}
-		],
-		"name": "requestToBuy",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "name",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "description",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "price",
-				"type": "uint256"
-			}
-		],
-		"name": "uploadProduct",
-		"outputs": [],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	}
 ];

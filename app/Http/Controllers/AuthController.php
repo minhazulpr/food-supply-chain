@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -9,6 +10,10 @@ class AuthController extends Controller
 {
     public function ShowLogin(){
         return view('auth.login');
+    }
+
+    public function ShowRegister(){
+        return view('auth.register');
     }
 
     public function ShowDashboard(){
@@ -30,6 +35,22 @@ class AuthController extends Controller
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ])->onlyInput('email');
+    }
+
+    public function Register(Request $request){
+        $validated = $request->validate([
+            'email' => 'required | unique:users',
+            'password' => 'required',
+            'role_id' => 'required'
+        ]);
+
+        User::create([
+            'email' => $validated['email'],
+            'password' => $validated['password'],
+            'role_id' => $validated['role_id']
+        ]);
+
+        return redirect()->route('login');
     }
 
 
